@@ -1,0 +1,39 @@
+# keep empty dir
+!.gitkeep
+
+# Local config files
+.gitconfig.local
+
+# Numerous always-ignore extensions
+*.sw[nop]
+*~
+
+# Temporary files
+db/*.sqlite3
+log/*.log
+tmp/**/*
+rerun.txt
+!tmp/cache/.keep
+
+# OS or Editor folders
+._*
+.cache
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+.apdisk
+.idea
+.project
+.settings
+.tmproj
+.env
+*.esproj
+*.sublime-project
+*.sublime-workspace
+nbproject
+Thumbs.db
+desktop.init

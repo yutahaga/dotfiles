@@ -1,0 +1,36 @@
+set show-all-if-ambiguous off
+set bell-style none
+set visible-stats on
+set completion-ignore-case on
+set horizontal-scroll-mode off
+set bell-style none
+set expand-tilde off
+set convert-meta off
+set meta-flag on
+set input-meta on
+set output-meta on
+
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+$if Bash
+  space: magic-space
+
+  "\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+  "\es":"\C-e\C-uls\C-m"
+  "\C-g": ""
+  "\C-gr": "grep -r ./\eb\C-f \"\"\C-b"
+  "\C-gg": "grep *\C-b\C-b \"\"\C-b"
+  
+  "\e\"": "\eb\"\ef\""
+  "\e\'": "\eb\'\ef\'"
+  "\e\`": "\eb\`\ef\`"
+  "\e\]": "\eb\[\ef\]"
+  "\e\[": "\eb\[\ef\]"
+  "\e\}": "\eb\{\ef\}"
+  "\e\{": "\eb\{\ef\}"
+  "\e\)": "\eb\(\ef\)"
+  "\e\(": "\eb\(\ef\)"
+$endif

@@ -1,0 +1,141 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+  if dein#util#_is_windows()
+    let g:vimproc#download_windows_dll = 1
+    " let cmd = 'tools\\update-dll-mingw'
+  elseif dein#util#_is_cygwin()
+    let g:dein#plugin.build = 'make -f make_cygwin.mak'
+  elseif executable('gmake')
+    let g:dein#plugin.build = 'gmake'
+  else
+    let g:dein#plugin.build = 'make'
+  endif
+'''
+
+[[plugins]]
+repo = 'kristijanhusak/vim-hybrid-material'
+hook_add = '''
+  let g:hybrid_custom_term_colors = 1
+  let g:hybrid_reduced_contrast = 1
+  set background=dark
+  autocmd MyAutoCmd VimEnter * colorscheme hybrid_material
+'''
+
+[[plugins]]
+repo = 'istepura/vim-toolbar-icons-silk'
+if = '''has('gui_running')'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+depends = ['cocopon/lightline-hybrid.vim', 'tpope/vim-fugitive']
+hook_add = '''
+  let g:lightline = {
+      \ 'colorscheme': 'hybrid',
+      \ 'mode_map': { 'c': 'NORMAL' },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'modified': 'LightLineModified',
+      \   'readonly': 'LightLineReadonly',
+      \   'fugitive': 'LightLineFugitive',
+      \   'filename': 'LightLineFilename',
+      \   'fileformat': 'LightLineFileformat',
+      \   'filetype': 'LightLineFiletype',
+      \   'fileencoding': 'LightLineFileencoding',
+      \   'mode': 'LightLineMode',
+      \ }
+      \ }
+
+  function! LightLineModified()
+    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
+
+  function! LightLineReadonly()
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+  endfunction
+
+  function! LightLineFilename()
+    return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+          \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \  &ft == 'unite' ? unite#get_status_string() :
+          \  &ft == 'vimshell' ? vimshell#get_status_string() :
+          \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+          \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+  endfunction
+
+  function! LightLineFugitive()
+    if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+      let _ = fugitive#head()
+      return strlen(_) ? '⭠ '._ : ''
+    endif
+    return ''
+  endfunction
+
+  function! LightLineFileformat()
+    return winwidth(0) > 70 ? &fileformat : ''
+  endfunction
+
+  function! LightLineFiletype()
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  endfunction
+
+  function! LightLineFileencoding()
+    return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  endfunction
+
+  function! LightLineMode()
+    return winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
+'''
+
+[[plugins]]
+repo = 'cocopon/lightline-hybrid.vim'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'sgur/vim-py3diff'
+hook_add = '''
+  set diffexpr=py3diff#diffexpr()
+'''
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+on_ft = 'help'
+
+# Launguages
+
+[[plugins]]
+repo = 'othree/yajs.vim'
+on_ft = ['js', 'javascript', 'es6', 'jsx']
+
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
+on_ft = ['markdown','mkd', 'md']
+hook_add = '''
+  let g:vim_markdown_frontmatter = 1
+  let g:vim_markdown_math = 1
+'''
+
+[[plugins]]
+repo  = 'cespare/vim-toml'
+on_ft = 'toml'

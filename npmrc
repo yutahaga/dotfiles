@@ -1,0 +1,5 @@
+prefix=C:\Program Files (x86)\Nodist\bin
+python=C:\tools\python2\python2.exe
+msvs_version=2015
+//registry.npmjs.org/:_authToken=6fb837d1-0ea4-4aac-92b5-d2364a5f50fa
+init.license=MIT

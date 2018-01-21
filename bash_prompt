@@ -1,0 +1,55 @@
+GIT_PATH="$(type -p git)"
+GIT_COMPLETION_DIR="${GIT_PATH%bin/git}share/git/completion"
+
+[[ -f "${GIT_COMPLETION_DIR}/git-prompt.sh" ]] && \
+  . "${GIT_COMPLETION_DIR}/git-prompt.sh"
+
+function parse_git_branch() {
+  BRANCH=$(git branch --no-color 2>/dev/null | grep '*' | tr -d '*')
+  [[ -n "${BRANCH}" ]] && echo " [${BRANCH}]"
+}
+
+#
+# ANSI Escape Sequences
+#
+# Open \[\033[
+# Close \]
+#
+# Reset 0m              Bold 1m
+# Underline   4m        Reverse 7m
+# 
+# [Foreground]
+# Black       0;30m     Dark Gray     1;30m
+# Blue        0;34m     Light Blue    1;34m
+# Green       0;32m     Light Green   1;32m
+# Cyan        0;36m     Light Cyan    1;36m
+# Red         0;31m     Light Red     1;31m
+# Purple      0;35m     Light Purple  1;35m
+# Brown       0;33m     Yellow        1;33m
+# Light Gray  0;37m     White         1;37m
+# Reset       39m
+# 
+# [Backgorund]
+# Black       0;40m     Dark Gray     1;40m
+# Blue        0;44m     Light Blue    1;44m
+# Green       0;42m     Light Green   1;42m
+# Cyan        0;46m     Light Cyan    1;46m
+# Red         0;41m     Light Red     1;41m
+# Purple      0;45m     Light Purple  1;45m
+# Brown       0;43m     Yellow        1;43m
+# Light Gray  0;47m     White         1;47m
+# Reset       49m
+# 
+
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWUPSTREAM=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWSTASHSTATE=1
+
+PS1='\n\e[32m\u@\h \e[33m\w \e[41m\e[1;38;5;255m$(__git_ps1 | sed -E "s/\((.+)\)/⎇ \1 /g")'$'\e[49m\n\e[0;34m\$ \e[1;37m'
+
+case $TERM in
+  *kterm*|*xterm*|*mlterm*|*cygwin*|*vt102*)
+    PS1="\[\e]0;\h:\w\007\]${PS1}"
+    ;;
+esac
